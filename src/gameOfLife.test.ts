@@ -47,5 +47,11 @@ describe('Game of life', () => {
       const nextGenerationThreeNeighbours = computeNextGeneration(gridThreeNeighbours)
       expect(nextGenerationThreeNeighbours[1][1]).toEqual(State.ALIVE)
     })
+
+    it('Any dead cell with exactly three live neighbours becomes a live cell', () => {
+      const gridThreeNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const nextGenerationThreeNeighbours = computeNextGeneration(gridThreeNeighbours)
+      expect(nextGenerationThreeNeighbours[1][1]).toEqual(State.ALIVE)
+    })
   })
 })

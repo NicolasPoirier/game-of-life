@@ -3,7 +3,9 @@ export enum State {
   DEAD
 }
 
-export function computeNextGeneration(grid: State[][]): State[][] {
+export type Grid = State[][]
+
+function getLiveNeighboursCount(grid: Grid): number {
   let liveNeighboursCount = 0
 
   for (let row = 0; row < grid.length; row++) {
@@ -13,6 +15,12 @@ export function computeNextGeneration(grid: State[][]): State[][] {
       }
     }
   }
+
+  return liveNeighboursCount
+}
+
+export function computeNextGeneration(grid: Grid): Grid {
+  const liveNeighboursCount = getLiveNeighboursCount(grid)
 
   if (liveNeighboursCount < 2 || liveNeighboursCount > 3) {
     return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]

@@ -1,3 +1,5 @@
+import { State, computeNextGeneration } from "./gameOfLife"
+
 describe('Game of life', () => {
   describe(`A two dimensional grid of cells, where each cell is either alive or dead
     The grid is finite, and no life can exist off the edges

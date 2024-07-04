@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "incremental": true,
+    "allowJs": true,
+    "declaration": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "lib": [
+      "ESNext"
+    ]
+  },
+  "include": [
+    "src",
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "ts-node": {
+    "swc": true
+  }
+}

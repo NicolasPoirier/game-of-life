@@ -37,5 +37,15 @@ describe('Game of life', () => {
       const nextGenerationEightNeighbours = computeNextGeneration(gridEightNeighbours)
       expect(nextGenerationEightNeighbours[1][1]).toEqual(State.DEAD)
     })
+
+    it('Any live cell with two or three live neighbours lives on to the next generation', () => {
+      const gridTwoNeighbours = [[State.ALIVE, State.ALIVE, State.DEAD], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const nextGenerationTwoNeighbours = computeNextGeneration(gridTwoNeighbours)
+      expect(nextGenerationTwoNeighbours[1][1]).toEqual(State.ALIVE)
+
+      const gridThreeNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const nextGenerationThreeNeighbours = computeNextGeneration(gridThreeNeighbours)
+      expect(nextGenerationThreeNeighbours[1][1]).toEqual(State.ALIVE)
+    })
   })
 })

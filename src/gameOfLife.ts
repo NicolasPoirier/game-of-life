@@ -5,12 +5,20 @@ export enum State {
 
 export type Grid = State[][]
 
-function getLiveNeighboursCount(grid: Grid): number {
+function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): number {
   let liveNeighboursCount = 0
 
-  for (let row = 0; row < grid.length; row++) {
-    for (let col = 0; col < grid[row].length; col++) {
-      if (grid[row][col] === State.ALIVE && (row != 1 || col != 1)) {
+  for (let row = cellRow - 1; row <= cellRow + 1; row++) {
+    if (row < 0 || row >= grid.length) {
+      continue
+    }
+
+    for (let col = cellCol - 1; col <= cellCol + 1; col++) {
+      if (col < 0 || col >= grid[row].length || (row === cellRow && col === cellCol)) {
+        continue;
+      }
+
+      if (grid[row][col] === State.ALIVE) {
         liveNeighboursCount++
       }
     }
@@ -35,15 +43,18 @@ function isGenerative(liveNeighboursCount: number): boolean {
   return liveNeighboursCount === 3
 }
 
-
 export function computeNextGeneration(grid: Grid): Grid {
-  const liveNeighboursCount = getLiveNeighboursCount(grid)
+  return grid
+    .map((row, rowIndex) =>
+      row.map((_, colIndex) => {
+        const liveNeighboursCount = getLiveNeighboursCount(grid, rowIndex, colIndex)
 
-  if (isDeadly(liveNeighboursCount)) {
-    return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
-  } else if (grid[1][1] == State.ALIVE || isGenerative(liveNeighboursCount)) {
-    return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
-  } else {
-    return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
-  }
+        if (isDeadly(liveNeighboursCount)) {
+          return State.DEAD
+        } else if (grid[rowIndex][colIndex] === State.ALIVE || isGenerative(liveNeighboursCount)) {
+          return State.ALIVE
+        } else {
+          return State.DEAD
+        }
+      }))
 }

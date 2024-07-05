@@ -24,7 +24,9 @@ export function computeNextGeneration(grid: Grid): Grid {
 
   if (liveNeighboursCount < 2 || liveNeighboursCount > 3) {
     return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
-  } else {
+  } else if (grid[1][1] == State.ALIVE || liveNeighboursCount === 3) {
     return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+  } else {
+    return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
   }
 }

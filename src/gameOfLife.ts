@@ -43,18 +43,22 @@ function isGenerative(liveNeighboursCount: number): boolean {
   return liveNeighboursCount === 3
 }
 
+function computeCellNextGeneration(grid: Grid, cellRow: number, cellCol: number): State {
+  const liveNeighboursCount = getLiveNeighboursCount(grid, cellRow, cellCol)
+
+  if (isDeadly(liveNeighboursCount)) {
+    return State.DEAD
+  } else if (grid[cellRow][cellCol] === State.ALIVE || isGenerative(liveNeighboursCount)) {
+    return State.ALIVE
+  } else {
+    return State.DEAD
+  }
+}
+
 export function computeNextGeneration(grid: Grid): Grid {
   return grid
     .map((row, rowIndex) =>
-      row.map((_, colIndex) => {
-        const liveNeighboursCount = getLiveNeighboursCount(grid, rowIndex, colIndex)
-
-        if (isDeadly(liveNeighboursCount)) {
-          return State.DEAD
-        } else if (grid[rowIndex][colIndex] === State.ALIVE || isGenerative(liveNeighboursCount)) {
-          return State.ALIVE
-        } else {
-          return State.DEAD
-        }
-      }))
+      row.map((_, colIndex) =>
+        computeCellNextGeneration(grid, rowIndex, colIndex)
+      ))
 }

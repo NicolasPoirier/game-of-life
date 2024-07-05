@@ -19,12 +19,29 @@ function getLiveNeighboursCount(grid: Grid): number {
   return liveNeighboursCount
 }
 
+function isOvercrowded(liveNeighboursCount: number): boolean {
+  return liveNeighboursCount > 3
+}
+
+function isUnderpopulated(liveNeighboursCount: number): boolean {
+  return liveNeighboursCount < 2
+}
+
+function isDeadly(liveNeighboursCount: number): boolean {
+  return isUnderpopulated(liveNeighboursCount) || isOvercrowded(liveNeighboursCount)
+}
+
+function isGenerative(liveNeighboursCount: number): boolean {
+  return liveNeighboursCount === 3
+}
+
+
 export function computeNextGeneration(grid: Grid): Grid {
   const liveNeighboursCount = getLiveNeighboursCount(grid)
 
-  if (liveNeighboursCount < 2 || liveNeighboursCount > 3) {
+  if (isDeadly(liveNeighboursCount)) {
     return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
-  } else if (grid[1][1] == State.ALIVE || liveNeighboursCount === 3) {
+  } else if (grid[1][1] == State.ALIVE || isGenerative(liveNeighboursCount)) {
     return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
   } else {
     return [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]

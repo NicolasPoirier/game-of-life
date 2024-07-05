@@ -87,5 +87,24 @@ describe('Game of life', () => {
       const nextGenerationEightNeighbours = computeNextGeneration(gridEightNeighbours)
       expect(nextGenerationEightNeighbours[1][1]).toEqual(State.DEAD)
     })
+
+    it('All cells of the grib are impacted by the rules', () => {
+      const grid =
+        [[State.DEAD, State.DEAD, State.ALIVE],
+        [State.ALIVE, State.ALIVE, State.DEAD],
+        [State.ALIVE, State.DEAD, State.ALIVE]]
+      /*
+        [[Stays dead, Becomes alive, Dies of underpopulation],
+        [Stays alive, Dies of overcrowding, Becomes alive],
+        [Stays alive, Stays dead, Dies of underpopulation]]
+      */
+      const expectedNextGeneration =
+        [[State.DEAD, State.ALIVE, State.DEAD],
+        [State.ALIVE, State.DEAD, State.ALIVE],
+        [State.ALIVE, State.DEAD, State.DEAD]]
+
+      const nextGeneration = computeNextGeneration(grid)
+      expect(nextGeneration).toEqual(expectedNextGeneration)
+    })
   })
 })

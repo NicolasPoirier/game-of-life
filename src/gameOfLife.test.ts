@@ -53,5 +53,39 @@ describe('Game of life', () => {
       const nextGenerationThreeNeighbours = computeNextGeneration(gridThreeNeighbours)
       expect(nextGenerationThreeNeighbours[1][1]).toEqual(State.ALIVE)
     })
+
+    it('Any dead cell with more or less than three live neighbours stays a dead cell', () => {
+      const gridZeroNeighbour = [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const nextGenerationZeroNeighbour = computeNextGeneration(gridZeroNeighbour)
+      expect(nextGenerationZeroNeighbour[1][1]).toEqual(State.DEAD)
+
+      const gridOneNeighbour = [[State.ALIVE, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const nextGenerationOneNeighbour = computeNextGeneration(gridOneNeighbour)
+      expect(nextGenerationOneNeighbour[1][1]).toEqual(State.DEAD)
+
+      const gridTwoNeighbours = [[State.ALIVE, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const nextGenerationTwoNeighbours = computeNextGeneration(gridTwoNeighbours)
+      expect(nextGenerationTwoNeighbours[1][1]).toEqual(State.DEAD)
+
+      const gridFourNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const nextGenerationFourNeighbours = computeNextGeneration(gridFourNeighbours)
+      expect(nextGenerationFourNeighbours[1][1]).toEqual(State.DEAD)
+
+      const gridFiveNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.ALIVE], [State.DEAD, State.DEAD, State.DEAD]]
+      const nextGenerationFiveNeighbours = computeNextGeneration(gridFiveNeighbours)
+      expect(nextGenerationFiveNeighbours[1][1]).toEqual(State.DEAD)
+
+      const gridSixNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.ALIVE], [State.ALIVE, State.DEAD, State.DEAD]]
+      const nextGenerationSixNeighbours = computeNextGeneration(gridSixNeighbours)
+      expect(nextGenerationSixNeighbours[1][1]).toEqual(State.DEAD)
+
+      const gridSevenNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.ALIVE], [State.ALIVE, State.ALIVE, State.DEAD]]
+      const nextGenerationSevenNeighbours = computeNextGeneration(gridSevenNeighbours)
+      expect(nextGenerationSevenNeighbours[1][1]).toEqual(State.DEAD)
+
+      const gridEightNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.ALIVE], [State.ALIVE, State.ALIVE, State.ALIVE]]
+      const nextGenerationEightNeighbours = computeNextGeneration(gridEightNeighbours)
+      expect(nextGenerationEightNeighbours[1][1]).toEqual(State.DEAD)
+    })
   })
 })

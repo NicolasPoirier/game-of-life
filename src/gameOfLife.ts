@@ -7,20 +7,22 @@ export type Grid = State[][]
 
 type Coordinates = { row: number; col: number }
 
+type CoordinatesShift = { rowShift: number; colShift: number }
+
 const GENERATIVE_LIVE_NEIGHBOURS_COUNT = 3
 const OVERCROWDED_ABOVE_LIVE_NEIGHBOURS_COUNT = 3
 const UNDERPOPULATED_BELOW_LIVE_NEIGHBOURS_COUNT = 2
 
-const TOP_LEFT_NEIGHBOUR_SHIFT = { row: -1, col: -1 }
-const TOP_CENTER_NEIGHBOUR_SHIFT = { row: -1, col: 0 }
-const TOP_RIGHT_NEIGHBOUR_SHIFT = { row: -1, col: 1 }
-const CENTER_LEFT_NEIGHBOUR_SHIFT = { row: 0, col: -1 }
-const CENTER_RIGHT_NEIGHBOUR_SHIFT = { row: 0, col: 1 }
-const BOTTOM_LEFT_NEIGHBOUR_SHIFT = { row: 1, col: -1 }
-const BOTTOM_CENTER_NEIGHBOUR_SHIFT = { row: 1, col: 0 }
-const BOTTOM_RIGHT_NEIGHBOUR_SHIFT = { row: 1, col: 1 }
+const TOP_LEFT_NEIGHBOUR_SHIFT = { rowShift: -1, colShift: -1 }
+const TOP_CENTER_NEIGHBOUR_SHIFT = { rowShift: -1, colShift: 0 }
+const TOP_RIGHT_NEIGHBOUR_SHIFT = { rowShift: -1, colShift: 1 }
+const CENTER_LEFT_NEIGHBOUR_SHIFT = { rowShift: 0, colShift: -1 }
+const CENTER_RIGHT_NEIGHBOUR_SHIFT = { rowShift: 0, colShift: 1 }
+const BOTTOM_LEFT_NEIGHBOUR_SHIFT = { rowShift: 1, colShift: -1 }
+const BOTTOM_CENTER_NEIGHBOUR_SHIFT = { rowShift: 1, colShift: 0 }
+const BOTTOM_RIGHT_NEIGHBOUR_SHIFT = { rowShift: 1, colShift: 1 }
 
-const possibleNeighbourShifts = [
+const possibleNeighbourShifts: CoordinatesShift[] = [
   TOP_LEFT_NEIGHBOUR_SHIFT,
   TOP_CENTER_NEIGHBOUR_SHIFT,
   TOP_RIGHT_NEIGHBOUR_SHIFT,
@@ -37,7 +39,7 @@ function isCellInGrid(grid: Grid, { row, col }: Coordinates): boolean {
 
 function getCellNeighbours(grid: Grid, cellCoordinates: Coordinates): State[] {
   return possibleNeighbourShifts
-    .map(({ row, col }) => ({ row: cellCoordinates.row + row, col: cellCoordinates.col + col }))
+    .map(({ rowShift, colShift }) => ({ row: cellCoordinates.row + rowShift, col: cellCoordinates.col + colShift }))
     .filter(possibleNeighbourCoordinates => isCellInGrid(grid, possibleNeighbourCoordinates))
     .map(({ row, col }) => grid[row][col])
 }

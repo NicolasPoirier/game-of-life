@@ -5,6 +5,10 @@ export enum State {
 
 export type Grid = State[][]
 
+const GENERATIVE_LIVE_NEIGHBOURS_COUNT = 3
+const OVERCROWDED_ABOVE_LIVE_NEIGHBOURS_COUNT = 3
+const UNDERPOPULATED_BELOW_LIVE_NEIGHBOURS_COUNT = 2
+
 function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): number {
   let liveNeighboursCount = 0
 
@@ -28,11 +32,11 @@ function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): n
 }
 
 function isOvercrowded(liveNeighboursCount: number): boolean {
-  return liveNeighboursCount > 3
+  return liveNeighboursCount > OVERCROWDED_ABOVE_LIVE_NEIGHBOURS_COUNT
 }
 
 function isUnderpopulated(liveNeighboursCount: number): boolean {
-  return liveNeighboursCount < 2
+  return liveNeighboursCount < UNDERPOPULATED_BELOW_LIVE_NEIGHBOURS_COUNT
 }
 
 function isDeadly(liveNeighboursCount: number): boolean {
@@ -40,7 +44,7 @@ function isDeadly(liveNeighboursCount: number): boolean {
 }
 
 function isGenerative(liveNeighboursCount: number): boolean {
-  return liveNeighboursCount === 3
+  return liveNeighboursCount === GENERATIVE_LIVE_NEIGHBOURS_COUNT
 }
 
 function computeCellNextGeneration(grid: Grid, cellRow: number, cellCol: number): State {

@@ -9,16 +9,16 @@ const GENERATIVE_LIVE_NEIGHBOURS_COUNT = 3
 const OVERCROWDED_ABOVE_LIVE_NEIGHBOURS_COUNT = 3
 const UNDERPOPULATED_BELOW_LIVE_NEIGHBOURS_COUNT = 2
 
+function isCellInGrid(row: number, col: number, grid: Grid): boolean {
+  return row >= 0 && row < grid.length && col >= 0 && col < grid[row].length
+}
+
 function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): number {
   let liveNeighboursCount = 0
 
   for (let row = cellRow - 1; row <= cellRow + 1; row++) {
-    if (row < 0 || row >= grid.length) {
-      continue
-    }
-
     for (let col = cellCol - 1; col <= cellCol + 1; col++) {
-      if (col < 0 || col >= grid[row].length || (row === cellRow && col === cellCol)) {
+      if (!isCellInGrid(row, col, grid) || (row === cellRow && col === cellCol)) {
         continue;
       }
 

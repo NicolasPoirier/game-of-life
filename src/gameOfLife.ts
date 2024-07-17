@@ -16,8 +16,13 @@ function isCellInGrid(row: number, col: number, grid: Grid): boolean {
 function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): number {
   let liveNeighboursCount = 0
 
-  for (let row = cellRow - 1; row <= cellRow + 1; row++) {
-    for (let col = cellCol - 1; col <= cellCol + 1; col++) {
+  const aboveRow = cellRow - 1
+  const belowRow = cellRow + 1
+  const leftCol = cellCol - 1
+  const rightCol = cellCol + 1
+
+  for (let row = aboveRow; row <= belowRow; row++) {
+    for (let col = leftCol; col <= rightCol; col++) {
       if (!isCellInGrid(row, col, grid) || (row === cellRow && col === cellCol)) {
         continue;
       }

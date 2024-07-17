@@ -14,24 +14,21 @@ function isCellInGrid(row: number, col: number, grid: Grid): boolean {
 }
 
 function getCellNeighbours(grid: Grid, cellRow: number, cellCol: number): State[] {
-  const neighbours: State[] = []
+  const possibleNeighbourShifts = [
+    { row: -1, col: -1 },
+    { row: -1, col: 0 },
+    { row: -1, col: 1 },
+    { row: 0, col: -1 },
+    { row: 0, col: 1 },
+    { row: 1, col: -1 },
+    { row: 1, col: 0 },
+    { row: 1, col: 1 }
+  ]
 
-  const aboveRow = cellRow - 1
-  const belowRow = cellRow + 1
-  const leftCol = cellCol - 1
-  const rightCol = cellCol + 1
-
-  for (let row = aboveRow; row <= belowRow; row++) {
-    for (let col = leftCol; col <= rightCol; col++) {
-      if (!isCellInGrid(row, col, grid) || (row === cellRow && col === cellCol)) {
-        continue;
-      }
-
-      neighbours.push(grid[row][col])
-    }
-  }
-
-  return neighbours
+  return possibleNeighbourShifts
+    .map(({ row, col }) => ({ row: cellRow + row, col: cellCol + col }))
+    .filter(({ row, col }) => isCellInGrid(row, col, grid))
+    .map(({ row, col }) => grid[row][col])
 }
 
 function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): number {

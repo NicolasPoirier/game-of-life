@@ -13,8 +13,8 @@ function isCellInGrid(row: number, col: number, grid: Grid): boolean {
   return row >= 0 && row < grid.length && col >= 0 && col < grid[row].length
 }
 
-function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): number {
-  let liveNeighboursCount = 0
+function getCellNeighbours(grid: Grid, cellRow: number, cellCol: number): State[] {
+  const neighbours: State[] = []
 
   const aboveRow = cellRow - 1
   const belowRow = cellRow + 1
@@ -27,13 +27,17 @@ function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): n
         continue;
       }
 
-      if (grid[row][col] === State.ALIVE) {
-        liveNeighboursCount++
-      }
+      neighbours.push(grid[row][col])
     }
   }
 
-  return liveNeighboursCount
+  return neighbours
+}
+
+function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): number {
+  return getCellNeighbours(grid, cellRow, cellCol)
+    .filter(neighbour => neighbour === State.ALIVE)
+    .length
 }
 
 function isOvercrowded(liveNeighboursCount: number): boolean {

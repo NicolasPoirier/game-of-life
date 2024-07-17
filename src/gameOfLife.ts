@@ -37,9 +37,13 @@ function isCellInGrid(grid: Grid, { row, col }: Coordinates): boolean {
   return row >= 0 && row < grid.length && col >= 0 && col < grid[row].length
 }
 
+function shiftCoordinates({ row, col }: Coordinates, { rowShift, colShift }: CoordinatesShift): Coordinates {
+  return { row: row + rowShift, col: col + colShift }
+}
+
 function getCellNeighbours(grid: Grid, cellCoordinates: Coordinates): State[] {
   return possibleNeighbourShifts
-    .map(({ rowShift, colShift }) => ({ row: cellCoordinates.row + rowShift, col: cellCoordinates.col + colShift }))
+    .map(shift => shiftCoordinates(cellCoordinates, shift))
     .filter(possibleNeighbourCoordinates => isCellInGrid(grid, possibleNeighbourCoordinates))
     .map(({ row, col }) => grid[row][col])
 }

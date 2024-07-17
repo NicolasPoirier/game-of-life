@@ -45,13 +45,14 @@ function isGenerative(liveNeighboursCount: number): boolean {
 
 function computeCellNextGeneration(grid: Grid, cellRow: number, cellCol: number): State {
   const liveNeighboursCount = getLiveNeighboursCount(grid, cellRow, cellCol)
+  const cell = grid[cellRow][cellCol]
 
   if (isDeadly(liveNeighboursCount)) {
     return State.DEAD
-  } else if (grid[cellRow][cellCol] === State.ALIVE || isGenerative(liveNeighboursCount)) {
+  } else if (isGenerative(liveNeighboursCount)) {
     return State.ALIVE
   } else {
-    return State.DEAD
+    return cell
   }
 }
 

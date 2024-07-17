@@ -5,6 +5,8 @@ export enum State {
 
 export type Grid = State[][]
 
+type Coordinates = { row: number; col: number }
+
 const GENERATIVE_LIVE_NEIGHBOURS_COUNT = 3
 const OVERCROWDED_ABOVE_LIVE_NEIGHBOURS_COUNT = 3
 const UNDERPOPULATED_BELOW_LIVE_NEIGHBOURS_COUNT = 2
@@ -29,19 +31,19 @@ const possibleNeighbourShifts = [
   BOTTOM_RIGHT_NEIGHBOUR_SHIFT
 ]
 
-function isCellInGrid(row: number, col: number, grid: Grid): boolean {
+function isCellInGrid(grid: Grid, { row, col }: Coordinates): boolean {
   return row >= 0 && row < grid.length && col >= 0 && col < grid[row].length
 }
 
-function getCellNeighbours(grid: Grid, cellRow: number, cellCol: number): State[] {
+function getCellNeighbours(grid: Grid, cellCoordinates: Coordinates): State[] {
   return possibleNeighbourShifts
-    .map(({ row, col }) => ({ row: cellRow + row, col: cellCol + col }))
-    .filter(({ row, col }) => isCellInGrid(row, col, grid))
+    .map(({ row, col }) => ({ row: cellCoordinates.row + row, col: cellCoordinates.col + col }))
+    .filter(possibleNeighbourCoordinates => isCellInGrid(grid, possibleNeighbourCoordinates))
     .map(({ row, col }) => grid[row][col])
 }
 
-function getLiveNeighboursCount(grid: Grid, cellRow: number, cellCol: number): number {
-  return getCellNeighbours(grid, cellRow, cellCol)
+function getLiveNeighboursCount(grid: Grid, cellCoordinates: Coordinates): number {
+  return getCellNeighbours(grid, cellCoordinates)
     .filter(neighbour => neighbour === State.ALIVE)
     .length
 }
@@ -62,9 +64,9 @@ function isGenerative(liveNeighboursCount: number): boolean {
   return liveNeighboursCount === GENERATIVE_LIVE_NEIGHBOURS_COUNT
 }
 
-function computeCellNextGeneration(grid: Grid, cellRow: number, cellCol: number): State {
-  const liveNeighboursCount = getLiveNeighboursCount(grid, cellRow, cellCol)
-  const cell = grid[cellRow][cellCol]
+function computeCellNextGeneration(grid: Grid, cellCoordinates: Coordinates): State {
+  const liveNeighboursCount = getLiveNeighboursCount(grid, cellCoordinates)
+  const cell = grid[cellCoordinates.row][cellCoordinates.col]
 
   if (isDeadly(liveNeighboursCount)) {
     return State.DEAD
@@ -79,6 +81,6 @@ export function computeNextGeneration(grid: Grid): Grid {
   return grid
     .map((row, rowIndex) =>
       row.map((_, colIndex) =>
-        computeCellNextGeneration(grid, rowIndex, colIndex)
+        computeCellNextGeneration(grid, { row: rowIndex, col: colIndex })
       ))
 }

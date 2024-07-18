@@ -1,4 +1,4 @@
-import { State, computeNextGeneration } from "./gameOfLife"
+import { CellState, computeNextGeneration } from "./gameOfLife"
 
 describe('Game of life', () => {
   describe(`A two dimensional grid of cells, where each cell is either alive or dead
@@ -7,101 +7,101 @@ describe('Game of life', () => {
     Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent. A cell at the edges has less neighbours`, () => {
 
     it('Any live cell with fewer than two live neighbours dies, as if caused by underpopulation', () => {
-      const gridZeroNeighbour = [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridZeroNeighbour = [[CellState.DEAD, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.ALIVE, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationZeroNeighbour = computeNextGeneration(gridZeroNeighbour)
-      expect(nextGenerationZeroNeighbour[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationZeroNeighbour[1][1]).toEqual(CellState.DEAD)
 
-      const gridOneNeighbour = [[State.ALIVE, State.DEAD, State.DEAD], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridOneNeighbour = [[CellState.ALIVE, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.ALIVE, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationOneNeighbour = computeNextGeneration(gridOneNeighbour)
-      expect(nextGenerationOneNeighbour[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationOneNeighbour[1][1]).toEqual(CellState.DEAD)
     })
 
     it('Any live cell with more than three live neighbours dies, as if by overcrowding', () => {
-      const gridFourNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridFourNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationFourNeighbours = computeNextGeneration(gridFourNeighbours)
-      expect(nextGenerationFourNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationFourNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridFiveNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.ALIVE, State.ALIVE], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridFiveNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationFiveNeighbours = computeNextGeneration(gridFiveNeighbours)
-      expect(nextGenerationFiveNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationFiveNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridSixNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.DEAD]]
+      const gridSixNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.DEAD, CellState.DEAD]]
       const nextGenerationSixNeighbours = computeNextGeneration(gridSixNeighbours)
-      expect(nextGenerationSixNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationSixNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridSevenNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.ALIVE, State.DEAD]]
+      const gridSevenNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.DEAD]]
       const nextGenerationSevenNeighbours = computeNextGeneration(gridSevenNeighbours)
-      expect(nextGenerationSevenNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationSevenNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridEightNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.ALIVE, State.ALIVE]]
+      const gridEightNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.ALIVE]]
       const nextGenerationEightNeighbours = computeNextGeneration(gridEightNeighbours)
-      expect(nextGenerationEightNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationEightNeighbours[1][1]).toEqual(CellState.DEAD)
     })
 
     it('Any live cell with two or three live neighbours lives on to the next generation', () => {
-      const gridTwoNeighbours = [[State.ALIVE, State.ALIVE, State.DEAD], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridTwoNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.DEAD], [CellState.DEAD, CellState.ALIVE, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationTwoNeighbours = computeNextGeneration(gridTwoNeighbours)
-      expect(nextGenerationTwoNeighbours[1][1]).toEqual(State.ALIVE)
+      expect(nextGenerationTwoNeighbours[1][1]).toEqual(CellState.ALIVE)
 
-      const gridThreeNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.DEAD, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridThreeNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.DEAD, CellState.ALIVE, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationThreeNeighbours = computeNextGeneration(gridThreeNeighbours)
-      expect(nextGenerationThreeNeighbours[1][1]).toEqual(State.ALIVE)
+      expect(nextGenerationThreeNeighbours[1][1]).toEqual(CellState.ALIVE)
     })
 
     it('Any dead cell with exactly three live neighbours becomes a live cell', () => {
-      const gridThreeNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridThreeNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.DEAD, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationThreeNeighbours = computeNextGeneration(gridThreeNeighbours)
-      expect(nextGenerationThreeNeighbours[1][1]).toEqual(State.ALIVE)
+      expect(nextGenerationThreeNeighbours[1][1]).toEqual(CellState.ALIVE)
     })
 
     it('Any dead cell with more or less than three live neighbours stays a dead cell', () => {
-      const gridZeroNeighbour = [[State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridZeroNeighbour = [[CellState.DEAD, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationZeroNeighbour = computeNextGeneration(gridZeroNeighbour)
-      expect(nextGenerationZeroNeighbour[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationZeroNeighbour[1][1]).toEqual(CellState.DEAD)
 
-      const gridOneNeighbour = [[State.ALIVE, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridOneNeighbour = [[CellState.ALIVE, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationOneNeighbour = computeNextGeneration(gridOneNeighbour)
-      expect(nextGenerationOneNeighbour[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationOneNeighbour[1][1]).toEqual(CellState.DEAD)
 
-      const gridTwoNeighbours = [[State.ALIVE, State.ALIVE, State.DEAD], [State.DEAD, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridTwoNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationTwoNeighbours = computeNextGeneration(gridTwoNeighbours)
-      expect(nextGenerationTwoNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationTwoNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridFourNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.DEAD], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridFourNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.DEAD, CellState.DEAD], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationFourNeighbours = computeNextGeneration(gridFourNeighbours)
-      expect(nextGenerationFourNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationFourNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridFiveNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.ALIVE], [State.DEAD, State.DEAD, State.DEAD]]
+      const gridFiveNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.DEAD, CellState.ALIVE], [CellState.DEAD, CellState.DEAD, CellState.DEAD]]
       const nextGenerationFiveNeighbours = computeNextGeneration(gridFiveNeighbours)
-      expect(nextGenerationFiveNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationFiveNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridSixNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.ALIVE], [State.ALIVE, State.DEAD, State.DEAD]]
+      const gridSixNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.DEAD, CellState.ALIVE], [CellState.ALIVE, CellState.DEAD, CellState.DEAD]]
       const nextGenerationSixNeighbours = computeNextGeneration(gridSixNeighbours)
-      expect(nextGenerationSixNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationSixNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridSevenNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.ALIVE], [State.ALIVE, State.ALIVE, State.DEAD]]
+      const gridSevenNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.DEAD, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.DEAD]]
       const nextGenerationSevenNeighbours = computeNextGeneration(gridSevenNeighbours)
-      expect(nextGenerationSevenNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationSevenNeighbours[1][1]).toEqual(CellState.DEAD)
 
-      const gridEightNeighbours = [[State.ALIVE, State.ALIVE, State.ALIVE], [State.ALIVE, State.DEAD, State.ALIVE], [State.ALIVE, State.ALIVE, State.ALIVE]]
+      const gridEightNeighbours = [[CellState.ALIVE, CellState.ALIVE, CellState.ALIVE], [CellState.ALIVE, CellState.DEAD, CellState.ALIVE], [CellState.ALIVE, CellState.ALIVE, CellState.ALIVE]]
       const nextGenerationEightNeighbours = computeNextGeneration(gridEightNeighbours)
-      expect(nextGenerationEightNeighbours[1][1]).toEqual(State.DEAD)
+      expect(nextGenerationEightNeighbours[1][1]).toEqual(CellState.DEAD)
     })
 
     it('All cells of the grib are impacted by the rules', () => {
       const grid =
-        [[State.DEAD, State.DEAD, State.ALIVE],
-        [State.ALIVE, State.ALIVE, State.DEAD],
-        [State.ALIVE, State.DEAD, State.ALIVE]]
+        [[CellState.DEAD, CellState.DEAD, CellState.ALIVE],
+        [CellState.ALIVE, CellState.ALIVE, CellState.DEAD],
+        [CellState.ALIVE, CellState.DEAD, CellState.ALIVE]]
       /*
         [[Stays dead, Becomes alive, Dies of underpopulation],
         [Stays alive, Dies of overcrowding, Becomes alive],
         [Stays alive, Stays dead, Dies of underpopulation]]
       */
       const expectedNextGeneration =
-        [[State.DEAD, State.ALIVE, State.DEAD],
-        [State.ALIVE, State.DEAD, State.ALIVE],
-        [State.ALIVE, State.DEAD, State.DEAD]]
+        [[CellState.DEAD, CellState.ALIVE, CellState.DEAD],
+        [CellState.ALIVE, CellState.DEAD, CellState.ALIVE],
+        [CellState.ALIVE, CellState.DEAD, CellState.DEAD]]
 
       const nextGeneration = computeNextGeneration(grid)
       expect(nextGeneration).toEqual(expectedNextGeneration)

@@ -1,9 +1,9 @@
-export enum State {
+export enum CellState {
   ALIVE,
   DEAD
 }
 
-export type Grid = State[][]
+export type Grid = CellState[][]
 
 type Coordinates = { row: number; col: number }
 
@@ -14,16 +14,16 @@ export function computeNextGeneration(grid: Grid): Grid {
         computeCellNextGeneration(grid, { row: rowIndex, col: colIndex })))
 }
 
-function computeCellNextGeneration(grid: Grid, cellCoordinates: Coordinates): State {
+function computeCellNextGeneration(grid: Grid, cellCoordinates: Coordinates): CellState {
   const liveNeighboursCount = getLiveNeighboursCount(grid, cellCoordinates)
-  const cell = grid[cellCoordinates.row][cellCoordinates.col]
+  const cellState = grid[cellCoordinates.row][cellCoordinates.col]
 
   if (isDeadly(liveNeighboursCount)) {
-    return State.DEAD
+    return CellState.DEAD
   } else if (isGenerative(liveNeighboursCount)) {
-    return State.ALIVE
+    return CellState.ALIVE
   } else {
-    return cell
+    return cellState
   }
 }
 
@@ -49,7 +49,7 @@ function isGenerative(liveNeighboursCount: number): boolean {
 
 function getLiveNeighboursCount(grid: Grid, cellCoordinates: Coordinates): number {
   return getCellNeighbours(grid, cellCoordinates)
-    .filter(neighbour => neighbour === State.ALIVE)
+    .filter(neighbour => neighbour === CellState.ALIVE)
     .length
 }
 
@@ -75,7 +75,7 @@ const possibleNeighbourShifts: CoordinatesShift[] = [
   BOTTOM_RIGHT_NEIGHBOUR_SHIFT
 ]
 
-function getCellNeighbours(grid: Grid, cellCoordinates: Coordinates): State[] {
+function getCellNeighbours(grid: Grid, cellCoordinates: Coordinates): CellState[] {
   return possibleNeighbourShifts
     .map(shift => shiftCoordinates(cellCoordinates, shift))
     .filter(possibleNeighbourCoordinates => isCellInGrid(grid, possibleNeighbourCoordinates))

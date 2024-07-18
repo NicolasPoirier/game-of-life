@@ -5,18 +5,18 @@ export enum CellState {
 
 export type Grid = CellState[][]
 
-type Coordinates = { row: number; col: number }
+type Coordinates = { rowIndex: number; colIndex: number }
 
 export function computeNextGeneration(grid: Grid): Grid {
   return grid
     .map((row, rowIndex) =>
       row.map((_, colIndex) =>
-        computeCellNextGeneration(grid, { row: rowIndex, col: colIndex })))
+        computeCellNextGeneration(grid, { rowIndex, colIndex })))
 }
 
 function computeCellNextGeneration(grid: Grid, cellCoordinates: Coordinates): CellState {
   const liveNeighboursCount = getLiveNeighboursCount(grid, cellCoordinates)
-  const cellState = grid[cellCoordinates.row][cellCoordinates.col]
+  const cellState = grid[cellCoordinates.rowIndex][cellCoordinates.colIndex]
 
   if (isDeadly(liveNeighboursCount)) {
     return CellState.DEAD
@@ -79,21 +79,21 @@ function getCellNeighbours(grid: Grid, cellCoordinates: Coordinates): CellState[
   return possibleNeighbourShifts
     .map(shift => shiftCoordinates(cellCoordinates, shift))
     .filter(possibleNeighbourCoordinates => isCellInGrid(grid, possibleNeighbourCoordinates))
-    .map(({ row, col }) => grid[row][col])
+    .map(({ rowIndex, colIndex }) => grid[rowIndex][colIndex])
 }
 
-function shiftCoordinates({ row, col }: Coordinates, { rowShift, colShift }: CoordinatesShift): Coordinates {
-  return { row: row + rowShift, col: col + colShift }
+function shiftCoordinates({ rowIndex, colIndex }: Coordinates, { rowShift, colShift }: CoordinatesShift): Coordinates {
+  return { rowIndex: rowIndex + rowShift, colIndex: colIndex + colShift }
 }
 
-function isCellInGrid(grid: Grid, { row, col }: Coordinates): boolean {
-  return isRowInGrid(grid, row) && isColInRow(grid[row], col)
+function isCellInGrid(grid: Grid, { rowIndex, colIndex }: Coordinates): boolean {
+  return isRowInGrid(grid, rowIndex) && isColInRow(grid[rowIndex], colIndex)
 }
 
-function isRowInGrid(grid: Grid, row: number): boolean {
-  return row >= 0 && row < grid.length
+function isRowInGrid(grid: Grid, rowIndex: number): boolean {
+  return rowIndex >= 0 && rowIndex < grid.length
 }
 
-function isColInRow(row: CellState[], col: number): boolean {
-  return col >= 0 && col < row.length
+function isColInRow(row: CellState[], colIndex: number): boolean {
+  return colIndex >= 0 && colIndex < row.length
 }

@@ -87,5 +87,13 @@ function shiftCoordinates({ row, col }: Coordinates, { rowShift, colShift }: Coo
 }
 
 function isCellInGrid(grid: Grid, { row, col }: Coordinates): boolean {
-  return row >= 0 && row < grid.length && col >= 0 && col < grid[row].length
+  return isRowInGrid(grid, row) && isColInRow(grid[row], col)
+}
+
+function isRowInGrid(grid: Grid, row: number): boolean {
+  return row >= 0 && row < grid.length
+}
+
+function isColInRow(row: CellState[], col: number): boolean {
+  return col >= 0 && col < row.length
 }

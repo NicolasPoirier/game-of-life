@@ -8,10 +8,7 @@ export type Grid = CellState[][]
 type Coordinates = { rowIndex: number; colIndex: number }
 
 export function computeNextGeneration(grid: Grid): Grid {
-  return grid
-    .map((row, rowIndex) =>
-      row.map((_, colIndex) =>
-        computeCellNextGeneration(grid, { rowIndex, colIndex })))
+  return mapCells(grid, computeCellNextGeneration)
 }
 
 function computeCellNextGeneration(grid: Grid, cellCoordinates: Coordinates): CellState {
@@ -96,4 +93,11 @@ function isRowInGrid(grid: Grid, rowIndex: number): boolean {
 
 function isColInRow(row: CellState[], colIndex: number): boolean {
   return colIndex >= 0 && colIndex < row.length
+}
+
+function mapCells(grid: Grid, callbackfn: (grid: Grid, cellCoordinates: Coordinates) => CellState): Grid {
+  return grid
+    .map((row, rowIndex) =>
+      row.map((_, colIndex) =>
+        callbackfn(grid, { rowIndex, colIndex })))
 }
